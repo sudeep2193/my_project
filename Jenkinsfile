@@ -13,26 +13,9 @@ pipeline {
                 branch 'master'
             }
             steps {
-                withCredentials([string(credentialsId: 'cloud_user_pw', variable: 'USERPASS')]) {
-                    sshPublisher(
-                        failOnError: false,
-                        publishers: [
-                            sshPublisherDesc(
-                                configName: 'staging',
-                                sshCredentials: [
-                                    username: 'cloud_user',
-                                    encryptedPassphrase: "$USERPASS"
-                                ], 
-                                transfers: [
-                                    sshTransfer(
-                                        sourceFiles: 'src/**',
-                                        removePrefix: 'src/'
-                                    )
-                                ]
-                            )
-                        ]
-                    )
-                }
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<CREDENTIAL_ID>',
+                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                                  println(env.USERNAME)
             }
         }
         stage('DeployToProd') {
@@ -40,29 +23,11 @@ pipeline {
                 branch 'master'
             }
             steps {
-                input 'Does the staging environment look OK?'
-                milestone(1)
-                withCredentials([string(credentialsId: 'cloud_user_pw', variable: 'USERPASS')]) {
-                    sshPublisher(
-                        failOnError: false,
-                        publishers: [
-                            sshPublisherDesc(
-                                configName: 'production',
-                                sshCredentials: [
-                                    username: 'cloud_user',
-                                    encryptedPassphrase: "$USERPASS"
-                                ], 
-                                transfers: [
-                                    sshTransfer(
-                                        sourceFiles: 'src/**',
-                                        removePrefix: 'src/'
-                                    )
-                                ]
-                            )
-                        ]
-                    )
-                }
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<sudeep>',
+                    usernameVariable: 'sudeep2193', passwordVariable: 'minni123']]) {
+                                  println(env.USERNAME)
             }
-        }
     }
-}
+    
+    
+    
