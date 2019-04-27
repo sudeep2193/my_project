@@ -13,15 +13,15 @@ pipeline {
                 branch 'master'
             }
             steps {
-                withCredentials([string(credentialsId: 'cloud_user_pw', variable: 'USERPASS')]) {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<sudeep>',
+                    usernameVariable: 'sudeep2193', passwordVariable: 'minni123']]) {
                     sshPublisher(
                         failOnError: true,
                         publishers: [
                             sshPublisherDesc(
                                 configName: 'staging',
                                 sshCredentials: [
-                                    username: 'cloud_user',
-                                    encryptedPassphrase: "$USERPASS"
+                                    username: 'sudeep2193',
                                 ], 
                                 transfers: [
                                     sshTransfer(
@@ -42,7 +42,8 @@ pipeline {
             steps {
                 input 'Does the staging environment look OK?'
                 milestone(1)
-                withCredentials([string(credentialsId: 'cloud_user_pw', variable: 'USERPASS')]) {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<sudeep>',
+                    usernameVariable: 'sudeep2193', passwordVariable: 'minni123']]) {
                     sshPublisher(
                         failOnError: true,
                         publishers: [
@@ -50,7 +51,6 @@ pipeline {
                                 configName: 'production',
                                 sshCredentials: [
                                     username: 'cloud_user',
-                                    encryptedPassphrase: "$USERPASS"
                                 ], 
                                 transfers: [
                                     sshTransfer(
