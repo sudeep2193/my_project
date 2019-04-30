@@ -3,7 +3,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Run Tests'
+
+                echo 'Pull Request PROD'
             }
         }
     }
